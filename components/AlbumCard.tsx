@@ -12,7 +12,7 @@ export default function AlbumCard({ album, onClick }: Props) {
   return (
     <button
       onClick={() => onClick(album)}
-      className="group flex flex-col gap-2 text-left focus:outline-none"
+      className="group flex flex-col gap-2 text-left focus:outline-none cursor-pointer"
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-white/5">
         {album.imageUrl ? (

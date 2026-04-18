@@ -23,7 +23,7 @@ export default function ColorPalette({ palette }: Props) {
           key={color.hex}
           onClick={() => handleCopy(color.hex)}
           title={color.hex}
-          className="group relative flex-1 rounded-lg overflow-hidden"
+          className="group relative flex-1 rounded-lg overflow-hidden cursor-pointer"
           style={{ backgroundColor: color.hex, minHeight: "4rem" }}
         >
           <span className="absolute inset-0 flex items-center justify-center text-xs font-mono opacity-0 group-hover:opacity-100 transition bg-black/40 text-white">

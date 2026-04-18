@@ -5,19 +5,22 @@ import SearchBar from "@/components/SearchBar";
 import AlbumGrid from "@/components/AlbumGrid";
 import AlbumDetail from "@/components/AlbumDetail";
 import HistoryList from "@/components/HistoryList";
+import FavoriteList from "@/components/FavoriteList";
 import { Album, HistoryItem, Palette } from "@/lib/types";
-import { getHistory, addToHistory } from "@/lib/storage";
+import { getHistory, addToHistory, getFavorites } from "@/lib/storage";
 
 export default function Home() {
 	const [query, setQuery] = useState("");
 	const [albums, setAlbums] = useState<Album[]>([]);
 	const [selected, setSelected] = useState<Album | null>(null);
 	const [history, setHistory] = useState<HistoryItem[]>([]);
+	const [favorites, setFavorites] = useState<HistoryItem[]>([]);
 	const [loading, setLoading] = useState(false);
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	useEffect(() => {
 		setHistory(getHistory());
+		setFavorites(getFavorites());
 	}, []);
 
 	const search = useCallback(async (q: string) => {
@@ -69,7 +72,7 @@ export default function Home() {
 				<SearchBar value={query} onChange={setQuery} />
 
 				{loading && (
-					<p className="text-white/30 text-sm animate-pulse">Searching...</p>
+					<p className="text-white/70 text-sm animate-pulse">Searching...</p>
 				)}
 
 				{!loading && query && albums.length === 0 && (
@@ -79,12 +82,15 @@ export default function Home() {
 				<AlbumGrid albums={albums} onSelect={setSelected} />
 
 				<HistoryList history={history} onSelect={setSelected} />
+
+				<FavoriteList favorites={favorites} onSelect={setSelected} />
 			</div>
 
 			{selected && (
 				<AlbumDetail
 					album={selected}
 					onPaletteReady={handlePaletteReady}
+					onFavoriteChange={() => setFavorites(getFavorites())}
 					onClose={() => setSelected(null)}
 				/>
 			)}

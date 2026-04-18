@@ -19,7 +19,7 @@ export default function HistoryList({ history, onSelect }: Props) {
           <button
             key={i}
             onClick={() => onSelect(item)}
-            className="flex-shrink-0 flex flex-col gap-1 text-left group"
+            className="flex-shrink-0 flex flex-col gap-1 text-left group cursor-pointer"
           >
             <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-white/5">
               {item.imageUrl && (
