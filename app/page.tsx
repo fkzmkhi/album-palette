@@ -58,13 +58,13 @@ export default function Home() {
 	};
 
 	return (
-		<main className="min-h-screen bg-zinc-950 text-white px-4 py-10">
+		<main className="min-h-screen bg-zinc-100 text-zinc-800 px-4 py-10">
 			<div className="mx-auto max-w-3xl flex flex-col gap-8">
 				<div className="flex flex-col gap-1">
-					<h1 className="text-2xl font-bold tracking-tight text-center">
+					<h1 className="text-2xl font-bold tracking-tight text-center text-zinc-900">
 						Album Palette
 					</h1>
-					<p className="text-white/40 text-sm text-center">
+					<p className="text-zinc-400 text-sm text-center">
 						アルバムジャケットからカラーパレットを抽出
 					</p>
 				</div>
@@ -72,11 +72,11 @@ export default function Home() {
 				<SearchBar value={query} onChange={setQuery} />
 
 				{loading && (
-					<p className="text-white/70 text-sm animate-pulse">Searching...</p>
+					<p className="text-zinc-400 text-sm animate-pulse">Searching...</p>
 				)}
 
 				{!loading && query && albums.length === 0 && (
-					<p className="text-white/30 text-sm">No results found.</p>
+					<p className="text-zinc-400 text-sm">No results found.</p>
 				)}
 
 				<AlbumGrid albums={albums} onSelect={setSelected} />

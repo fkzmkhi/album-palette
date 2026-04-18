@@ -73,33 +73,33 @@ export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, o
 
 	return (
 		<div
-			className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+			className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
 			onClick={onClose}
 		>
 			<div
-				className="relative w-full max-w-md rounded-2xl bg-zinc-900 p-6 pt-12 flex flex-col gap-5"
+				className="relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl"
 				onClick={(e) => e.stopPropagation()}
 			>
-				<div className="absolute right-4 top-2 flex items-center gap-2">
+				<div className="absolute right-4 top-3 flex items-center gap-2">
 					<button
 						onClick={handleFavorite}
 						disabled={!palette}
 						className={`text-xl transition cursor-pointer ${
-							favorited ? "text-red-400" : "text-white/30 hover:text-white/70"
+							favorited ? "text-red-400" : "text-zinc-300 hover:text-red-300"
 						} disabled:opacity-30 disabled:cursor-not-allowed`}
 						title={favorited ? "Remove from favorites" : "Add to favorites"}
 					>
-						{favorited ? "♥" : "♡"}
+						♥
 					</button>
 					<button
 						onClick={onClose}
-						className="text-white/40 hover:text-white transition text-xl cursor-pointer"
+						className="text-zinc-300 hover:text-zinc-600 transition text-xl cursor-pointer"
 					>
 						✕
 					</button>
 				</div>
 
-				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white/5">
+				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-100">
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img
 						ref={imgRef}
@@ -113,25 +113,25 @@ export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, o
 						className="w-full h-full object-cover"
 					/>
 					{!loaded && (
-						<div className="absolute inset-0 flex items-center justify-center text-white/20 animate-pulse">
+						<div className="absolute inset-0 flex items-center justify-center text-zinc-300 animate-pulse">
 							Loading...
 						</div>
 					)}
 				</div>
 
 				<div className="flex flex-col gap-1">
-					<p className="font-semibold text-white text-lg leading-tight">
+					<p className="font-semibold text-zinc-900 text-lg leading-tight">
 						{album.name}
 					</p>
-					<p className="text-white/50 text-sm">{album.artist}</p>
-					<div className="flex items-center gap-3 mt-1 text-xs text-white/30 justify-between">
+					<p className="text-zinc-400 text-sm">{album.artist}</p>
+					<div className="flex items-center gap-3 mt-1 text-xs text-zinc-400 justify-between">
 						{meta?.releaseDate && <span>{meta.releaseDate}</span>}
 						{meta?.url && (
 							<a
 								href={meta.url}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="hover:text-white/70 transition underline underline-offset-2 cursor-pointer"
+								className="text-indigo-400 hover:text-indigo-600 transition underline underline-offset-2 cursor-pointer"
 							>
 								Last.fm →
 							</a>
@@ -142,7 +142,7 @@ export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, o
 				{palette ? (
 					<ColorPalette palette={palette} />
 				) : (
-					<div className="h-16 rounded-lg bg-white/5 animate-pulse" />
+					<div className="h-16 rounded-lg bg-zinc-100 animate-pulse" />
 				)}
 			</div>
 		</div>

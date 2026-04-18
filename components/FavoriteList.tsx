@@ -13,7 +13,7 @@ export default function FavoriteList({ favorites, onSelect }: Props) {
 
 	return (
 		<div>
-			<p className="text-xs text-white/30 mb-3 uppercase tracking-widest">Favorites</p>
+			<p className="text-xs text-zinc-400 mb-3 uppercase tracking-widest font-medium">Favorites</p>
 			<div className="flex gap-3 overflow-x-auto pb-2">
 				{favorites.map((item, i) => (
 					<button
@@ -21,7 +21,7 @@ export default function FavoriteList({ favorites, onSelect }: Props) {
 						onClick={() => onSelect(item)}
 						className="flex-shrink-0 flex flex-col gap-1 text-left group cursor-pointer"
 					>
-						<div className="relative w-14 h-14 rounded-lg overflow-hidden bg-white/5">
+						<div className="relative w-14 h-14 rounded-lg overflow-hidden bg-zinc-200 shadow-sm">
 							{item.imageUrl && (
 								<Image
 									src={item.imageUrl}
