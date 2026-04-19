@@ -16,3 +16,17 @@ export type HistoryItem = Album & {
   palette: Palette;
   visitedAt: string;
 };
+
+export type AlbumMeta = {
+  url: string;
+  releaseDate: string | null;
+};
+
+export type GenreTopAlbum = {
+  rank: number;
+  name: string;
+  artist: string;
+  mbid?: string;
+  imageUrl: string;
+  palette?: Palette;
+};

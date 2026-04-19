@@ -18,9 +18,9 @@ export default function ColorPalette({ palette }: Props) {
 
   return (
     <div className="flex gap-2">
-      {palette.map((color) => (
+      {palette.map((color, i) => (
         <button
-          key={color.hex}
+          key={i}
           onClick={() => handleCopy(color.hex)}
           title={color.hex}
           className="group relative flex-1 rounded-lg overflow-hidden cursor-pointer"

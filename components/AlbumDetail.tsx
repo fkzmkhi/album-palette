@@ -1,48 +1,60 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { getPaletteSync } from "colorthief";
-import { Album, HistoryItem, Palette } from "@/lib/types";
+import { Album, AlbumMeta, HistoryItem, Palette } from "@/lib/types";
 import { isFavorited, toggleFavorite } from "@/lib/storage";
 import ColorPalette from "./ColorPalette";
 
-type AlbumMeta = {
-	url: string;
-	releaseDate: string | null;
-};
-
 type Props = {
 	album: Album;
+	initialPalette?: Palette;
+	initialMeta?: AlbumMeta | null;
 	onPaletteReady: (palette: Palette) => void;
 	onFavoriteChange: () => void;
 	onClose: () => void;
 };
 
-export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, onClose }: Props) {
+export default function AlbumDetail({ album, initialPalette, initialMeta, onPaletteReady, onFavoriteChange, onClose }: Props) {
 	const imgRef = useRef<HTMLImageElement>(null);
-	const [palette, setPalette] = useState<Palette | null>(null);
+	const [palette, setPalette] = useState<Palette | null>(initialPalette ?? null);
 	const [loaded, setLoaded] = useState(false);
-	const [meta, setMeta] = useState<AlbumMeta | null>(null);
+	const [meta, setMeta] = useState<AlbumMeta | null>(initialMeta ?? null);
 	const [favorited, setFavorited] = useState(false);
+	const [visible, setVisible] = useState(false);
+
+	// Entrance animation
+	useEffect(() => {
+		const raf = requestAnimationFrame(() =>
+			requestAnimationFrame(() => setVisible(true))
+		);
+		return () => cancelAnimationFrame(raf);
+	}, []);
 
 	useEffect(() => {
-		setPalette(null);
+		setPalette(initialPalette ?? null);
 		setLoaded(false);
-		setMeta(null);
+		setMeta(initialMeta ?? null);
 		setFavorited(isFavorited(album.name, album.artist));
+	}, [album, initialPalette, initialMeta]);
 
-		const params = new URLSearchParams({
-			artist: album.artist,
-			album: album.name,
-			...(album.mbid ? { mbid: album.mbid } : {}),
-		});
-		fetch(`/api/album?${params}`)
-			.then((r) => r.json())
-			.then((d) => setMeta(d.url ? d : null))
-			.catch(() => {});
-	}, [album]);
+	const handleClose = useCallback(() => {
+		setVisible(false);
+		setTimeout(onClose, 250);
+	}, [onClose]);
+
+	// ESC key
+	useEffect(() => {
+		const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
+		window.addEventListener("keydown", onKey);
+		return () => window.removeEventListener("keydown", onKey);
+	}, [handleClose]);
 
 	const extractPalette = () => {
+		if (initialPalette) {
+			onPaletteReady(initialPalette);
+			return;
+		}
 		const img = imgRef.current;
 		if (!img) return;
 		try {
@@ -73,31 +85,29 @@ export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, o
 
 	return (
 		<div
-			className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-			onClick={onClose}
+			className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-250 ${
+				visible ? "opacity-100" : "opacity-0"
+			}`}
+			onClick={handleClose}
 		>
+			{/* Backdrop */}
+			<div className="absolute inset-0 bg-black/50" />
+
+			{/* Modal card */}
 			<div
-				className="relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl"
+				className={`relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl transition-all duration-250 ${
+					visible
+						? "opacity-100 scale-100 translate-y-0"
+						: "opacity-0 scale-95 translate-y-3"
+				}`}
 				onClick={(e) => e.stopPropagation()}
 			>
-				<div className="absolute right-4 top-3 flex items-center gap-2">
-					<button
-						onClick={handleFavorite}
-						disabled={!palette}
-						className={`text-xl transition cursor-pointer ${
-							favorited ? "text-red-400" : "text-zinc-300 hover:text-red-300"
-						} disabled:opacity-30 disabled:cursor-not-allowed`}
-						title={favorited ? "Remove from favorites" : "Add to favorites"}
-					>
-						♥
-					</button>
-					<button
-						onClick={onClose}
-						className="text-zinc-300 hover:text-zinc-600 transition text-xl cursor-pointer"
-					>
-						✕
-					</button>
-				</div>
+				<button
+					onClick={handleClose}
+					className="absolute right-4 top-3 text-zinc-300 hover:text-zinc-600 transition text-xl cursor-pointer"
+				>
+					✕
+				</button>
 
 				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-100">
 					{/* eslint-disable-next-line @next/next/no-img-element */}
@@ -120,11 +130,34 @@ export default function AlbumDetail({ album, onPaletteReady, onFavoriteChange, o
 				</div>
 
 				<div className="flex flex-col gap-1">
-					<p className="font-semibold text-zinc-900 text-lg leading-tight">
-						{album.name}
-					</p>
-					<p className="text-zinc-400 text-sm">{album.artist}</p>
-					<div className="flex items-center gap-3 mt-1 text-xs text-zinc-400 justify-between">
+					<div className="flex items-start justify-between gap-2">
+						<p className="font-semibold text-zinc-900 text-lg leading-tight">
+							{album.name}
+						</p>
+						<button
+							onClick={handleFavorite}
+							disabled={!palette}
+							className={`shrink-0 mt-0.5 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+								favorited ? "text-red-400" : "text-zinc-300 hover:text-red-300"
+							}`}
+							title={favorited ? "Remove from favorites" : "Add to favorites"}
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill={favorited ? "currentColor" : "none"}
+								stroke="currentColor"
+								strokeWidth={2}
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="w-5 h-5"
+							>
+								<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+							</svg>
+						</button>
+					</div>
+					<p className="text-zinc-500 text-sm">{album.artist}</p>
+					<div className="flex items-center gap-3 mt-1 text-xs text-zinc-500 justify-between">
 						{meta?.releaseDate && <span>{meta.releaseDate}</span>}
 						{meta?.url && (
 							<a

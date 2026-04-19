@@ -1,50 +1,62 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import SearchBar from "@/components/SearchBar";
-import AlbumGrid from "@/components/AlbumGrid";
+import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import AlbumDetail from "@/components/AlbumDetail";
 import HistoryList from "@/components/HistoryList";
 import FavoriteList from "@/components/FavoriteList";
-import { Album, HistoryItem, Palette } from "@/lib/types";
+import GenreSelector from "@/components/GenreSelector";
+import TopAlbumGrid from "@/components/TopAlbumGrid";
+import { Album, AlbumMeta, HistoryItem, Palette, GenreTopAlbum } from "@/lib/types";
+import { Genre } from "@/lib/genres";
 import { getHistory, addToHistory, getFavorites } from "@/lib/storage";
 
 export default function Home() {
-	const [query, setQuery] = useState("");
-	const [albums, setAlbums] = useState<Album[]>([]);
 	const [selected, setSelected] = useState<Album | null>(null);
+	const [selectedPalette, setSelectedPalette] = useState<Palette | undefined>(undefined);
+	const [selectedMeta, setSelectedMeta] = useState<AlbumMeta | null>(null);
 	const [history, setHistory] = useState<HistoryItem[]>([]);
 	const [favorites, setFavorites] = useState<HistoryItem[]>([]);
-	const [loading, setLoading] = useState(false);
-	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const [genre, setGenre] = useState<Genre>("pop");
+	const [topAlbums, setTopAlbums] = useState<GenreTopAlbum[]>([]);
+	const [genreLoading, setGenreLoading] = useState(true);
 
 	useEffect(() => {
 		setHistory(getHistory());
 		setFavorites(getFavorites());
 	}, []);
 
-	const search = useCallback(async (q: string) => {
-		if (!q.trim()) {
-			setAlbums([]);
-			return;
-		}
-		setLoading(true);
+	const fetchGenreTop = useCallback(async (g: Genre) => {
+		setGenreLoading(true);
+		setTopAlbums([]);
 		try {
-			const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+			const res = await fetch(`/api/genre-top?tag=${encodeURIComponent(g)}&limit=100`);
 			const data = await res.json();
-			setAlbums(data.albums ?? []);
+			setTopAlbums(data.items ?? []);
 		} finally {
-			setLoading(false);
+			setGenreLoading(false);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (debounceRef.current) clearTimeout(debounceRef.current);
-		debounceRef.current = setTimeout(() => search(query), 300);
-		return () => {
-			if (debounceRef.current) clearTimeout(debounceRef.current);
-		};
-	}, [query, search]);
+		fetchGenreTop(genre);
+	}, [genre, fetchGenreTop]);
+
+	const selectAlbum = useCallback(async (album: Album, palette?: Palette) => {
+		setSelectedPalette(palette);
+		const params = new URLSearchParams({
+			artist: album.artist,
+			album: album.name,
+			...(album.mbid ? { mbid: album.mbid } : {}),
+		});
+		const meta = await fetch(`/api/album?${params}`)
+			.then((r) => r.json())
+			.then((d) => (d.url ? (d as AlbumMeta) : null))
+			.catch(() => null);
+		setSelectedMeta(meta);
+		setSelected(album);
+	}, []);
 
 	const handlePaletteReady = (palette: Palette) => {
 		if (!selected) return;
@@ -57,41 +69,76 @@ export default function Home() {
 		setHistory(getHistory());
 	};
 
+	const handleTopAlbumSelect = (album: GenreTopAlbum) => {
+		const { rank: _rank, palette, ...albumBase } = album;
+		selectAlbum(albumBase, palette);
+	};
+
+	const handleTopAlbumPalette = (rank: number, palette: Palette) => {
+		setTopAlbums((prev) =>
+			prev.map((a) => (a.rank === rank ? { ...a, palette } : a)),
+		);
+	};
+
+	const handleClose = () => {
+		setSelected(null);
+		setSelectedPalette(undefined);
+		setSelectedMeta(null);
+	};
+
 	return (
-		<main className="min-h-screen bg-zinc-100 text-zinc-800 px-4 py-10">
-			<div className="mx-auto max-w-3xl flex flex-col gap-8">
-				<div className="flex flex-col gap-1">
-					<h1 className="text-2xl font-bold tracking-tight text-center text-zinc-900">
+		<main className="min-h-screen bg-white text-zinc-900 px-4 py-4">
+			<div className="mx-auto max-w-5xl flex flex-col gap-10">
+				<div className="flex items-center justify-between">
+					<h1 className="text-2xl font-bold tracking-tight text-zinc-900">
 						Album Palette
 					</h1>
-					<p className="text-zinc-400 text-sm text-center">
-						アルバムジャケットからカラーパレットを抽出
-					</p>
+					<Link
+						href="/search"
+						className="w-9 h-9 flex items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-800 transition cursor-pointer"
+						aria-label="Search"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+							<circle cx="11" cy="11" r="8" />
+							<path d="m21 21-4.35-4.35" />
+						</svg>
+					</Link>
 				</div>
 
-				<SearchBar value={query} onChange={setQuery} />
+				<div className="flex flex-col gap-6">
+					<div className="flex flex-col gap-4">
+						<div>
+							<h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+								Top Albums by Genre
+							</h2>
+							<p className="text-zinc-500 text-sm mt-1">
+								各ジャンルで人気のアルバムからパレットを抽出
+							</p>
+						</div>
+						<GenreSelector selected={genre} onChange={setGenre} />
+					</div>
+					<TopAlbumGrid
+						albums={topAlbums}
+						loading={genreLoading}
+						genre={genre}
+						onSelect={handleTopAlbumSelect}
+						onPaletteExtracted={handleTopAlbumPalette}
+					/>
+				</div>
 
-				{loading && (
-					<p className="text-zinc-400 text-sm animate-pulse">Searching...</p>
-				)}
+				<HistoryList history={history} onSelect={(album) => selectAlbum(album)} />
 
-				{!loading && query && albums.length === 0 && (
-					<p className="text-zinc-400 text-sm">No results found.</p>
-				)}
-
-				<AlbumGrid albums={albums} onSelect={setSelected} />
-
-				<HistoryList history={history} onSelect={setSelected} />
-
-				<FavoriteList favorites={favorites} onSelect={setSelected} />
+				<FavoriteList favorites={favorites} onSelect={(album) => selectAlbum(album)} />
 			</div>
 
 			{selected && (
 				<AlbumDetail
 					album={selected}
+					initialPalette={selectedPalette}
+					initialMeta={selectedMeta}
 					onPaletteReady={handlePaletteReady}
 					onFavoriteChange={() => setFavorites(getFavorites())}
-					onClose={() => setSelected(null)}
+					onClose={handleClose}
 				/>
 			)}
 		</main>

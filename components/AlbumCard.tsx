@@ -14,7 +14,7 @@ export default function AlbumCard({ album, onClick }: Props) {
       onClick={() => onClick(album)}
       className="group flex flex-col gap-2 text-left focus:outline-none cursor-pointer"
     >
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-200 shadow-sm">
+      <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-zinc-200">
         {album.imageUrl ? (
           <Image
             src={album.imageUrl}
@@ -25,14 +25,14 @@ export default function AlbumCard({ album, onClick }: Props) {
             unoptimized
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-zinc-400 text-4xl">
+          <div className="flex h-full w-full items-center justify-center text-zinc-500 text-4xl">
             ♪
           </div>
         )}
       </div>
       <div className="min-w-0">
-        <p className="truncate text-sm font-medium text-zinc-800">{album.name}</p>
-        <p className="truncate text-xs text-zinc-400">{album.artist}</p>
+        <p className="truncate text-sm font-medium text-zinc-900">{album.name}</p>
+        <p className="truncate text-xs text-zinc-500">{album.artist}</p>
       </div>
     </button>
   );

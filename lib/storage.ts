@@ -2,7 +2,7 @@ import { HistoryItem } from "./types";
 
 const KEY = "album-palette-history";
 const FAV_KEY = "album-palette-favorites";
-const MAX = 10;
+const MAX = 50;
 
 export function getHistory(): HistoryItem[] {
   if (typeof window === "undefined") return [];
