@@ -99,7 +99,7 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 
 			{/* Modal card */}
 			<div
-				className={`relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl transition-all duration-250 ${
+				className={`relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl transition-all duration-250 max-h-[90dvh] overflow-y-auto ${
 					visible
 						? "opacity-100 scale-100 translate-y-0"
 						: "opacity-0 scale-95 translate-y-3"
@@ -113,7 +113,7 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 					✕
 				</button>
 
-				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
+				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 shrink-0">
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img
 						ref={imgRef}
