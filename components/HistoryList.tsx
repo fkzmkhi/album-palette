@@ -13,7 +13,7 @@ export default function HistoryList({ history, onSelect }: Props) {
 
   return (
     <div>
-      <p className="text-lg font-bold text-zinc-900 mb-4">Recent</p>
+      <p className="text-lg font-bold text-slate-100 mb-4">Recent</p>
       <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
         {history.map((item, i) => (
           <button
@@ -21,7 +21,7 @@ export default function HistoryList({ history, onSelect }: Props) {
             onClick={() => onSelect(item)}
             className="flex-shrink-0 flex flex-col gap-2 text-left group cursor-pointer"
           >
-            <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-zinc-200 group-hover:-translate-y-0.5 transition">
+            <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-slate-800 group-hover:-translate-y-0.5 transition">
               {item.imageUrl && (
                 <Image
                   src={item.imageUrl}

@@ -72,12 +72,12 @@ export default function SearchPage() {
 	};
 
 	return (
-		<main className="min-h-screen bg-white text-zinc-900 px-4 py-4">
-			<div className="mx-auto max-w-5xl flex flex-col gap-8">
+		<main className="min-h-screen bg-[#0f172a] text-slate-100 px-4 py-4">
+			<div className="mx-auto max-w-7xl flex flex-col gap-8">
 				<div className="flex items-center gap-3">
 					<Link
 						href="/"
-						className="w-9 h-9 flex items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-800 transition cursor-pointer"
+						className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition cursor-pointer"
 						aria-label="Back"
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -90,10 +90,10 @@ export default function SearchPage() {
 				</div>
 
 				{loading && (
-					<p className="text-zinc-500 text-sm animate-pulse">Searching...</p>
+					<p className="text-slate-400 text-sm animate-pulse">Searching...</p>
 				)}
 				{!loading && query && albums.length === 0 && (
-					<p className="text-zinc-500 text-sm">No results found.</p>
+					<p className="text-slate-400 text-sm">No results found.</p>
 				)}
 
 				<AlbumGrid albums={albums} query={query} onSelect={selectAlbum} />

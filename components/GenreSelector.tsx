@@ -16,8 +16,8 @@ export default function GenreSelector({ selected, onChange }: Props) {
 					onClick={() => onChange(genre)}
 					className={`shrink-0 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition cursor-pointer ${
 						genre === selected
-							? "bg-indigo-600 text-white shadow-md"
-							: "bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 border border-zinc-300"
+							? "bg-rose-500 text-white shadow-md"
+							: "bg-slate-800 text-slate-300 hover:bg-slate-800 hover:text-slate-100 border border-slate-700"
 					}`}
 				>
 					{genre}

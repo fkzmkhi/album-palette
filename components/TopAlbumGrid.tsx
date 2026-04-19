@@ -14,7 +14,13 @@ type Props = {
 	onPaletteExtracted: (rank: number, palette: Palette) => void;
 };
 
-export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPaletteExtracted }: Props) {
+export default function TopAlbumGrid({
+	albums,
+	loading,
+	genre,
+	onSelect,
+	onPaletteExtracted,
+}: Props) {
 	const [page, setPage] = useState(0);
 
 	useEffect(() => {
@@ -27,11 +33,11 @@ export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPalet
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
 					{Array.from({ length: PAGE_SIZE }).map((_, i) => (
 						<div key={i} className="flex flex-col gap-3">
-							<div className="aspect-square w-full rounded-2xl bg-zinc-200 animate-pulse" />
-							<div className="h-2.5 w-full rounded-full bg-zinc-200 animate-pulse" />
+							<div className="aspect-square w-full rounded-2xl bg-slate-800 animate-pulse" />
+							<div className="h-2.5 w-full rounded-full bg-slate-800 animate-pulse" />
 							<div className="flex flex-col gap-1.5">
-								<div className="h-3.5 w-3/4 rounded-lg bg-zinc-200 animate-pulse" />
-								<div className="h-3 w-1/2 rounded-lg bg-zinc-200 animate-pulse" />
+								<div className="h-3.5 w-3/4 rounded-lg bg-slate-800 animate-pulse" />
+								<div className="h-3 w-1/2 rounded-lg bg-slate-800 animate-pulse" />
 							</div>
 						</div>
 					))}
@@ -44,8 +50,13 @@ export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPalet
 	const visible = albums.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 	const placeholders = Array.from({ length: PAGE_SIZE - visible.length });
 
+	const goToPage = (n: number) => {
+		setPage(n);
+		window.scrollTo({ top: 0, behavior: "smooth" });
+	};
+
 	return (
-		<div className="flex flex-col gap-5">
+		<div className="flex flex-col gap-8">
 			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
 				{visible.map((album, i) => (
 					<TopAlbumCard
@@ -64,11 +75,20 @@ export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPalet
 			{totalPages > 1 && (
 				<div className="flex items-center justify-center gap-1">
 					<button
-						onClick={() => setPage((p) => p - 1)}
+						onClick={() => goToPage(page - 1)}
 						disabled={page === 0}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth={2.5}
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="w-4 h-4"
+						>
 							<path d="m15 18-6-6 6-6" />
 						</svg>
 					</button>
@@ -76,11 +96,11 @@ export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPalet
 					{Array.from({ length: totalPages }).map((_, i) => (
 						<button
 							key={i}
-							onClick={() => setPage(i)}
+							onClick={() => goToPage(i)}
 							className={`w-9 h-9 rounded-lg text-sm font-medium transition cursor-pointer  ${
 								i === page
-									? "bg-indigo-600 text-white border border-indigo-600"
-									: "bg-white text-zinc-600 border border-zinc-300 hover:bg-zinc-100"
+									? "bg-rose-500 text-white border border-rose-500"
+									: "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-800"
 							}`}
 						>
 							{i + 1}
@@ -88,11 +108,20 @@ export default function TopAlbumGrid({ albums, loading, genre, onSelect, onPalet
 					))}
 
 					<button
-						onClick={() => setPage((p) => p + 1)}
+						onClick={() => goToPage(page + 1)}
 						disabled={page === totalPages - 1}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth={2.5}
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="w-4 h-4"
+						>
 							<path d="m9 18 6-6-6-6" />
 						</svg>
 					</button>

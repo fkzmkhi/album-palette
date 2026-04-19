@@ -7,13 +7,21 @@ import HistoryList from "@/components/HistoryList";
 import FavoriteList from "@/components/FavoriteList";
 import GenreSelector from "@/components/GenreSelector";
 import TopAlbumGrid from "@/components/TopAlbumGrid";
-import { Album, AlbumMeta, HistoryItem, Palette, GenreTopAlbum } from "@/lib/types";
+import {
+	Album,
+	AlbumMeta,
+	HistoryItem,
+	Palette,
+	GenreTopAlbum,
+} from "@/lib/types";
 import { Genre } from "@/lib/genres";
 import { getHistory, addToHistory, getFavorites } from "@/lib/storage";
 
 export default function Home() {
 	const [selected, setSelected] = useState<Album | null>(null);
-	const [selectedPalette, setSelectedPalette] = useState<Palette | undefined>(undefined);
+	const [selectedPalette, setSelectedPalette] = useState<Palette | undefined>(
+		undefined,
+	);
 	const [selectedMeta, setSelectedMeta] = useState<AlbumMeta | null>(null);
 	const [history, setHistory] = useState<HistoryItem[]>([]);
 	const [favorites, setFavorites] = useState<HistoryItem[]>([]);
@@ -31,7 +39,9 @@ export default function Home() {
 		setGenreLoading(true);
 		setTopAlbums([]);
 		try {
-			const res = await fetch(`/api/genre-top?tag=${encodeURIComponent(g)}&limit=100`);
+			const res = await fetch(
+				`/api/genre-top?tag=${encodeURIComponent(g)}&limit=100`,
+			);
 			const data = await res.json();
 			setTopAlbums(data.items ?? []);
 		} finally {
@@ -87,30 +97,39 @@ export default function Home() {
 	};
 
 	return (
-		<main className="min-h-screen bg-white text-zinc-900 px-4 py-4">
-			<div className="mx-auto max-w-5xl flex flex-col gap-10">
+		<main className="min-h-screen bg-[#0f172a] text-slate-100 px-4 py-4">
+			<div className="mx-auto max-w-7xl flex flex-col gap-10">
 				<div className="flex items-center justify-between">
 					<h1 className="flex items-center gap-2.5">
 						{/* Logo mark: album cover with palette swatches */}
 						<svg viewBox="0 0 36 36" className="w-8 h-8 shrink-0" aria-hidden>
-							<rect width="36" height="36" rx="9" fill="#eef2ff" />
-							<circle cx="18" cy="16" r="8" fill="none" stroke="#c7d2fe" strokeWidth="2.5" />
-							<circle cx="18" cy="16" r="3" fill="#6366f1" />
-							<rect x="5"  y="26" width="5" height="5" rx="1.5" fill="#6366f1" />
-							<rect x="12" y="26" width="5" height="5" rx="1.5" fill="#a78bfa" />
-							<rect x="19" y="26" width="5" height="5" rx="1.5" fill="#f472b6" />
-							<rect x="26" y="26" width="5" height="5" rx="1.5" fill="#fb923c" />
+							<rect width="36" height="36" rx="9" fill="#1e293b" />
+							<circle cx="18" cy="16" r="8" fill="none" stroke="#475569" strokeWidth="2.5" />
+							<circle cx="18" cy="16" r="3" fill="#fb7185" />
+							<rect x="5"  y="26" width="5" height="5" rx="1.5" fill="#fb7185" />
+							<rect x="12" y="26" width="5" height="5" rx="1.5" fill="#fb923c" />
+							<rect x="19" y="26" width="5" height="5" rx="1.5" fill="#facc15" />
+							<rect x="26" y="26" width="5" height="5" rx="1.5" fill="#34d399" />
 						</svg>
-						<span className="text-2xl font-black tracking-tight text-zinc-900">
-							Album<span className="text-indigo-500">Palette</span>
+						<span className="text-2xl font-black tracking-tight text-slate-100">
+							Album<span className="text-rose-400">Palette</span>
 						</span>
 					</h1>
 					<Link
 						href="/search"
-						className="w-9 h-9 flex items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-800 transition cursor-pointer"
+						className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition cursor-pointer"
 						aria-label="Search"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth={2}
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="w-5 h-5"
+						>
 							<circle cx="11" cy="11" r="8" />
 							<path d="m21 21-4.35-4.35" />
 						</svg>
@@ -120,11 +139,11 @@ export default function Home() {
 				<div className="flex flex-col gap-6">
 					<div className="flex flex-col gap-4">
 						<div>
-							<h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+							<h2 className="text-2xl font-bold tracking-tight text-slate-100">
 								Top Albums by Genre
 							</h2>
-							<p className="text-zinc-500 text-sm mt-1">
-								各ジャンルで人気のアルバムからパレットを抽出
+							<p className="text-slate-400 text-sm mt-1">
+								各ジャンルで人気のアルバムからカラーパレットを抽出
 							</p>
 						</div>
 						<GenreSelector selected={genre} onChange={setGenre} />
@@ -138,9 +157,15 @@ export default function Home() {
 					/>
 				</div>
 
-				<HistoryList history={history} onSelect={(album) => selectAlbum(album)} />
+				<HistoryList
+					history={history}
+					onSelect={(album) => selectAlbum(album)}
+				/>
 
-				<FavoriteList favorites={favorites} onSelect={(album) => selectAlbum(album)} />
+				<FavoriteList
+					favorites={favorites}
+					onSelect={(album) => selectAlbum(album)}
+				/>
 			</div>
 
 			{selected && (
