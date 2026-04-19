@@ -10,7 +10,24 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
 	title: "Album Palette",
-	description: "Extract color palettes from album artwork",
+	description: "アルバムジャケットから5色のカラーパレットを抽出・コピーできるWebアプリ。Last.fm APIを使ったアルバム検索に対応。",
+	metadataBase: new URL("https://album-palette.vercel.app"),
+	openGraph: {
+		title: "Album Palette",
+		description: "アルバムジャケットから5色のカラーパレットを抽出・コピーできるWebアプリ。",
+		url: "https://album-palette.vercel.app",
+		siteName: "Album Palette",
+		locale: "ja_JP",
+		type: "website",
+	},
+	twitter: {
+		card: "summary",
+		title: "Album Palette",
+		description: "アルバムジャケットから5色のカラーパレットを抽出・コピーできるWebアプリ。",
+	},
+	icons: {
+		icon: "/icon.svg",
+	},
 };
 
 export default function RootLayout({
