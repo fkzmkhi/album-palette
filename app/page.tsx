@@ -90,8 +90,20 @@ export default function Home() {
 		<main className="min-h-screen bg-white text-zinc-900 px-4 py-4">
 			<div className="mx-auto max-w-5xl flex flex-col gap-10">
 				<div className="flex items-center justify-between">
-					<h1 className="text-2xl font-bold tracking-tight text-zinc-900">
-						Album Palette
+					<h1 className="flex items-center gap-2.5">
+						{/* Logo mark: album cover with palette swatches */}
+						<svg viewBox="0 0 36 36" className="w-8 h-8 shrink-0" aria-hidden>
+							<rect width="36" height="36" rx="9" fill="#eef2ff" />
+							<circle cx="18" cy="16" r="8" fill="none" stroke="#c7d2fe" strokeWidth="2.5" />
+							<circle cx="18" cy="16" r="3" fill="#6366f1" />
+							<rect x="5"  y="26" width="5" height="5" rx="1.5" fill="#6366f1" />
+							<rect x="12" y="26" width="5" height="5" rx="1.5" fill="#a78bfa" />
+							<rect x="19" y="26" width="5" height="5" rx="1.5" fill="#f472b6" />
+							<rect x="26" y="26" width="5" height="5" rx="1.5" fill="#fb923c" />
+						</svg>
+						<span className="text-2xl font-black tracking-tight text-zinc-900">
+							Album<span className="text-indigo-500">Palette</span>
+						</span>
 					</h1>
 					<Link
 						href="/search"
