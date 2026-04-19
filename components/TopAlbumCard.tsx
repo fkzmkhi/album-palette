@@ -43,7 +43,7 @@ export default function TopAlbumCard({ album, index, onClick, onPaletteExtracted
 				animationDelay: `${index * 55}ms`,
 			}}
 		>
-			<div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-slate-800 transition group-hover:-translate-y-0.5">
+			<div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-gray-100 transition group-hover:-translate-y-0.5">
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					ref={imgRef}
@@ -54,7 +54,7 @@ export default function TopAlbumCard({ album, index, onClick, onPaletteExtracted
 					className={`w-full h-full object-cover transition duration-300 group-hover:scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
 				/>
 				{!loaded && (
-					<div className="absolute inset-0 bg-slate-800 animate-pulse" />
+					<div className="absolute inset-0 bg-gray-200 animate-pulse" />
 				)}
 			</div>
 
@@ -74,12 +74,12 @@ export default function TopAlbumCard({ album, index, onClick, onPaletteExtracted
 					))}
 				</div>
 			) : (
-				<div className="h-2.5 w-full rounded-full bg-slate-800 animate-pulse" />
+				<div className="h-2.5 w-full rounded-full bg-gray-200 animate-pulse" />
 			)}
 
 			<div className="min-w-0">
-				<p className="truncate text-sm font-medium text-slate-100 leading-snug">{album.name}</p>
-				<p className="truncate text-xs text-slate-400 mt-0.5">{album.artist}</p>
+				<p className="truncate text-sm font-medium text-gray-900 leading-snug">{album.name}</p>
+				<p className="truncate text-xs text-gray-500 mt-0.5">{album.artist}</p>
 			</div>
 		</button>
 	);

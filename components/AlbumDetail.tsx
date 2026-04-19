@@ -23,12 +23,16 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 	const [favorited, setFavorited] = useState(false);
 	const [visible, setVisible] = useState(false);
 
-	// Entrance animation
+	// Entrance animation + scroll lock
 	useEffect(() => {
 		const raf = requestAnimationFrame(() =>
 			requestAnimationFrame(() => setVisible(true))
 		);
-		return () => cancelAnimationFrame(raf);
+		document.body.style.overflow = "hidden";
+		return () => {
+			cancelAnimationFrame(raf);
+			document.body.style.overflow = "";
+		};
 	}, []);
 
 	useEffect(() => {
@@ -91,11 +95,11 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 			onClick={handleClose}
 		>
 			{/* Backdrop */}
-			<div className="absolute inset-0 bg-black/50" />
+			<div className="absolute inset-0 bg-black/40" />
 
 			{/* Modal card */}
 			<div
-				className={`relative w-full max-w-md rounded-2xl bg-slate-800 p-6 pt-12 flex flex-col gap-5 shadow-xl transition-all duration-250 ${
+				className={`relative w-full max-w-md rounded-2xl bg-white p-6 pt-12 flex flex-col gap-5 shadow-xl transition-all duration-250 ${
 					visible
 						? "opacity-100 scale-100 translate-y-0"
 						: "opacity-0 scale-95 translate-y-3"
@@ -104,12 +108,12 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 			>
 				<button
 					onClick={handleClose}
-					className="absolute right-4 top-3 text-slate-600 hover:text-slate-300 transition text-xl cursor-pointer"
+					className="absolute right-4 top-3 text-gray-300 hover:text-gray-600 transition text-xl cursor-pointer"
 				>
 					✕
 				</button>
 
-				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-800">
+				<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img
 						ref={imgRef}
@@ -123,7 +127,7 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 						className="w-full h-full object-cover"
 					/>
 					{!loaded && (
-						<div className="absolute inset-0 flex items-center justify-center text-slate-600 animate-pulse">
+						<div className="absolute inset-0 flex items-center justify-center text-gray-300 animate-pulse">
 							Loading...
 						</div>
 					)}
@@ -131,14 +135,14 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 
 				<div className="flex flex-col gap-1">
 					<div className="flex items-start justify-between gap-2">
-						<p className="font-semibold text-slate-100 text-lg leading-tight">
+						<p className="font-semibold text-gray-900 text-lg leading-tight">
 							{album.name}
 						</p>
 						<button
 							onClick={handleFavorite}
 							disabled={!palette}
 							className={`shrink-0 mt-0.5 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-								favorited ? "text-red-400" : "text-slate-600 hover:text-red-300"
+								favorited ? "text-red-400" : "text-gray-300 hover:text-red-400"
 							}`}
 							title={favorited ? "Remove from favorites" : "Add to favorites"}
 						>
@@ -156,15 +160,15 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 							</svg>
 						</button>
 					</div>
-					<p className="text-slate-400 text-sm">{album.artist}</p>
-					<div className="flex items-center gap-3 mt-1 text-xs text-slate-400 justify-between">
+					<p className="text-gray-500 text-sm">{album.artist}</p>
+					<div className="flex items-center gap-3 mt-1 text-xs text-gray-400 justify-between">
 						{meta?.releaseDate && <span>{meta.releaseDate}</span>}
 						{meta?.url && (
 							<a
 								href={meta.url}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-rose-400 hover:text-slate-400 transition underline underline-offset-2 cursor-pointer"
+								className="text-rose-500 hover:text-rose-400 transition underline underline-offset-2 cursor-pointer"
 							>
 								Last.fm →
 							</a>
@@ -175,7 +179,7 @@ export default function AlbumDetail({ album, initialPalette, initialMeta, onPale
 				{palette ? (
 					<ColorPalette palette={palette} />
 				) : (
-					<div className="h-16 rounded-lg bg-slate-800 animate-pulse" />
+					<div className="h-16 rounded-lg bg-gray-100 animate-pulse" />
 				)}
 			</div>
 		</div>

@@ -21,7 +21,7 @@ export default function SearchBar({ value, onChange }: Props) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="Search albums or artists..."
-      className="w-full rounded-2xl border border-slate-700 bg-slate-800 px-5 py-4 text-slate-100 placeholder-slate-500 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-900 transition shadow-sm text-base"
+      className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-gray-900 placeholder-gray-400 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition shadow-sm text-base"
     />
   );
 }

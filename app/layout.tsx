@@ -22,7 +22,7 @@ export default function RootLayout({
 		<html lang="ja" className={`${jakarta.variable} h-full antialiased`}>
 			<body className="min-h-full flex flex-col font-sans">
 				{children}
-				<footer className=" py-12 text-center text-xs text-slate-500 bg-[#0f172a]">
+				<footer className=" py-12 text-center text-xs text-gray-400 bg-gray-50">
 					© {new Date().getFullYear()} Album Palette. Powered by{" "}
 					<a
 						href="https://www.last.fm/"

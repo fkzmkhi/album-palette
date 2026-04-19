@@ -7,6 +7,10 @@ type Props = {
   palette: Palette;
 };
 
+function luminance([r, g, b]: [number, number, number]) {
+  return 0.299 * r + 0.587 * g + 0.114 * b;
+}
+
 export default function ColorPalette({ palette }: Props) {
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -17,20 +21,21 @@ export default function ColorPalette({ palette }: Props) {
   };
 
   return (
-    <div className="flex gap-2">
-      {palette.map((color, i) => (
-        <button
-          key={i}
-          onClick={() => handleCopy(color.hex)}
-          title={color.hex}
-          className="group relative flex-1 rounded-lg overflow-hidden cursor-pointer"
-          style={{ backgroundColor: color.hex, minHeight: "4rem" }}
-        >
-          <span className="absolute inset-0 flex items-center justify-center text-xs font-mono opacity-0 group-hover:opacity-100 transition bg-black/40 text-white">
-            {copied === color.hex ? "Copied!" : color.hex}
-          </span>
-        </button>
-      ))}
+    <div className="flex flex-col gap-2">
+      {palette.map((color, i) => {
+        const light = luminance(color.rgb) > 140;
+        const textColor = light ? "text-black/70" : "text-white/80";
+        return (
+          <button
+            key={i}
+            onClick={() => handleCopy(color.hex)}
+            className={`w-full h-12 rounded-lg flex items-center justify-center font-mono text-sm font-medium tracking-wide cursor-pointer transition-opacity active:opacity-70 ${textColor}`}
+            style={{ backgroundColor: color.hex }}
+          >
+            {copied === color.hex ? "Copied!" : color.hex.toUpperCase()}
+          </button>
+        );
+      })}
     </div>
   );
 }

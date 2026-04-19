@@ -14,10 +14,10 @@ export default function GenreSelector({ selected, onChange }: Props) {
 				<button
 					key={genre}
 					onClick={() => onChange(genre)}
-					className={`shrink-0 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition cursor-pointer ${
+					className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition cursor-pointer ${
 						genre === selected
-							? "bg-rose-500 text-white shadow-md"
-							: "bg-slate-800 text-slate-300 hover:bg-slate-800 hover:text-slate-100 border border-slate-700"
+							? "bg-rose-500 text-white shadow-sm"
+							: "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 border border-gray-200"
 					}`}
 				>
 					{genre}

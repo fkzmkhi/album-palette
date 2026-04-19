@@ -97,27 +97,26 @@ export default function Home() {
 	};
 
 	return (
-		<main className="min-h-screen bg-[#0f172a] text-slate-100 px-4 py-4">
+		<main className="min-h-screen bg-gray-50 text-gray-900 px-4 py-4">
 			<div className="mx-auto max-w-7xl flex flex-col gap-10">
 				<div className="flex items-center justify-between">
 					<h1 className="flex items-center gap-2.5">
-						{/* Logo mark: album cover with palette swatches */}
 						<svg viewBox="0 0 36 36" className="w-8 h-8 shrink-0" aria-hidden>
-							<rect width="36" height="36" rx="9" fill="#1e293b" />
-							<circle cx="18" cy="16" r="8" fill="none" stroke="#475569" strokeWidth="2.5" />
+							<rect width="36" height="36" rx="9" fill="#f1f5f9" />
+							<circle cx="18" cy="16" r="8" fill="none" stroke="#cbd5e1" strokeWidth="2.5" />
 							<circle cx="18" cy="16" r="3" fill="#fb7185" />
 							<rect x="5"  y="26" width="5" height="5" rx="1.5" fill="#fb7185" />
 							<rect x="12" y="26" width="5" height="5" rx="1.5" fill="#fb923c" />
 							<rect x="19" y="26" width="5" height="5" rx="1.5" fill="#facc15" />
 							<rect x="26" y="26" width="5" height="5" rx="1.5" fill="#34d399" />
 						</svg>
-						<span className="text-2xl font-black tracking-tight text-slate-100">
-							Album<span className="text-rose-400">Palette</span>
+						<span className="text-2xl font-black tracking-tight text-gray-900">
+							Album<span className="text-rose-500">Palette</span>
 						</span>
 					</h1>
 					<Link
 						href="/search"
-						className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition cursor-pointer"
+						className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-700 transition cursor-pointer"
 						aria-label="Search"
 					>
 						<svg
@@ -139,10 +138,10 @@ export default function Home() {
 				<div className="flex flex-col gap-6">
 					<div className="flex flex-col gap-4">
 						<div>
-							<h2 className="text-2xl font-bold tracking-tight text-slate-100">
+							<h2 className="text-2xl font-bold tracking-tight text-gray-900">
 								Top Albums by Genre
 							</h2>
-							<p className="text-slate-400 text-sm mt-1">
+							<p className="text-gray-500 text-sm mt-1">
 								各ジャンルで人気のアルバムからカラーパレットを抽出
 							</p>
 						</div>

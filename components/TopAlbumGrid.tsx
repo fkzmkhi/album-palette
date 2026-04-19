@@ -33,11 +33,11 @@ export default function TopAlbumGrid({
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
 					{Array.from({ length: PAGE_SIZE }).map((_, i) => (
 						<div key={i} className="flex flex-col gap-3">
-							<div className="aspect-square w-full rounded-2xl bg-slate-800 animate-pulse" />
-							<div className="h-2.5 w-full rounded-full bg-slate-800 animate-pulse" />
+							<div className="aspect-square w-full rounded-2xl bg-gray-200 animate-pulse" />
+							<div className="h-2.5 w-full rounded-full bg-gray-200 animate-pulse" />
 							<div className="flex flex-col gap-1.5">
-								<div className="h-3.5 w-3/4 rounded-lg bg-slate-800 animate-pulse" />
-								<div className="h-3 w-1/2 rounded-lg bg-slate-800 animate-pulse" />
+								<div className="h-3.5 w-3/4 rounded-lg bg-gray-200 animate-pulse" />
+								<div className="h-3 w-1/2 rounded-lg bg-gray-200 animate-pulse" />
 							</div>
 						</div>
 					))}
@@ -77,7 +77,7 @@ export default function TopAlbumGrid({
 					<button
 						onClick={() => goToPage(page - 1)}
 						disabled={page === 0}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +97,10 @@ export default function TopAlbumGrid({
 						<button
 							key={i}
 							onClick={() => goToPage(i)}
-							className={`w-9 h-9 rounded-lg text-sm font-medium transition cursor-pointer  ${
+							className={`w-9 h-9 rounded-lg text-sm font-medium transition cursor-pointer ${
 								i === page
 									? "bg-rose-500 text-white border border-rose-500"
-									: "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-800"
+									: "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
 							}`}
 						>
 							{i + 1}
@@ -110,7 +110,7 @@ export default function TopAlbumGrid({
 					<button
 						onClick={() => goToPage(page + 1)}
 						disabled={page === totalPages - 1}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

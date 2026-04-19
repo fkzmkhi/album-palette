@@ -50,7 +50,7 @@ export default function AlbumGrid({ albums, query, onSelect }: Props) {
 					<button
 						onClick={() => goToPage(page - 1)}
 						disabled={page === 0}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -70,10 +70,10 @@ export default function AlbumGrid({ albums, query, onSelect }: Props) {
 						<button
 							key={i}
 							onClick={() => goToPage(i)}
-							className={`w-9 h-9 rounded-lg text-sm font-medium transition cursor-pointer  ${
+							className={`w-9 h-9 rounded-lg text-sm font-medium transition cursor-pointer ${
 								i === page
 									? "bg-rose-500 text-white border border-rose-500"
-									: "bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-800"
+									: "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
 							}`}
 						>
 							{i + 1}
@@ -83,7 +83,7 @@ export default function AlbumGrid({ albums, query, onSelect }: Props) {
 					<button
 						onClick={() => goToPage(page + 1)}
 						disabled={page === totalPages - 1}
-						className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer "
+						className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
