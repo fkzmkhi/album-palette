@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "antd";
 import { GENRES, Genre } from "@/lib/genres";
 
 type Props = {
@@ -11,17 +12,15 @@ export default function GenreSelector({ selected, onChange }: Props) {
 	return (
 		<div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
 			{GENRES.map((genre) => (
-				<button
+				<Button
 					key={genre}
+					type={genre === selected ? "primary" : "default"}
+					size="small"
 					onClick={() => onChange(genre)}
-					className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition cursor-pointer ${
-						genre === selected
-							? "bg-rose-500 text-white shadow-sm"
-							: "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 border border-gray-200"
-					}`}
+					className="shrink-0 uppercase font-bold tracking-wide rounded-full"
 				>
 					{genre}
-				</button>
+				</Button>
 			))}
 		</div>
 	);

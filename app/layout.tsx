@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import AntdProvider from "./AntdProvider";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -38,6 +39,7 @@ export default function RootLayout({
 	return (
 		<html lang="ja" className={`${jakarta.variable} h-full antialiased`}>
 			<body className="min-h-full flex flex-col font-sans">
+				<AntdProvider>
 				{children}
 				<footer className=" py-12 text-center text-xs text-gray-400 bg-gray-50">
 					© {new Date().getFullYear()} Album Palette. Powered by{" "}
@@ -50,6 +52,7 @@ export default function RootLayout({
 						Last.fm
 					</a>
 				</footer>
+				</AntdProvider>
 			</body>
 		</html>
 	);

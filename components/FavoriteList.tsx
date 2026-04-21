@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Typography } from "antd";
 import { HistoryItem, Album } from "@/lib/types";
 
 type Props = {
@@ -13,7 +14,7 @@ export default function FavoriteList({ favorites, onSelect }: Props) {
 
 	return (
 		<div>
-			<p className="text-lg font-bold text-gray-900 mb-4">Favorites</p>
+			<Typography.Title level={5} className="!mb-4">Favorites</Typography.Title>
 			<div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
 				{favorites.map((item, i) => (
 					<button

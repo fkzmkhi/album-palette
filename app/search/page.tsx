@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
+import { Spin } from "antd";
 import SearchBar from "@/components/SearchBar";
 import AlbumGrid from "@/components/AlbumGrid";
 import AlbumDetail from "@/components/AlbumDetail";
@@ -90,7 +91,9 @@ export default function SearchPage() {
 				</div>
 
 				{loading && (
-					<p className="text-gray-400 text-sm animate-pulse">Searching...</p>
+					<div className="flex justify-center py-8">
+						<Spin size="large" />
+					</div>
 				)}
 				{!loading && query && albums.length === 0 && (
 					<p className="text-gray-400 text-sm">No results found.</p>
